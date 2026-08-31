@@ -515,6 +515,26 @@ const productsContainer =
 const categoryButtons =
     document.querySelectorAll(".category-btn");
 
+const categoryView =
+    document.getElementById("category-view");
+
+const productsView =
+    document.getElementById("products-view");
+
+const backCategories =
+    document.getElementById("back-categories");
+
+const selectedCategoryTitle =
+    document.getElementById("selected-category-title");
+
+const nombresCategorias = {
+    parrillas: "Parrillas y anticuchos",
+    alitas: "Alitas",
+    hamburguesas: "Hamburguesas",
+    tragos: "Tragos",
+    bebidas: "Bebidas"
+};
+
 
 /* =====================================================
    CAMBIAR CATEGORÍA
@@ -533,11 +553,32 @@ categoryButtons.forEach(button => {
         categoriaSeleccionada =
             button.dataset.category;
 
-        renderProductos();
+        mostrarProductos();
 
     });
 
 });
+
+if (backCategories) {
+    backCategories.addEventListener("click", mostrarCategorias);
+}
+
+function mostrarCategorias() {
+    if (categoryView) categoryView.classList.remove("hidden");
+    if (productsView) productsView.classList.add("hidden");
+}
+
+function mostrarProductos() {
+    if (categoryView) categoryView.classList.add("hidden");
+    if (productsView) productsView.classList.remove("hidden");
+
+    if (selectedCategoryTitle) {
+        selectedCategoryTitle.textContent =
+            nombresCategorias[categoriaSeleccionada] || "Productos";
+    }
+
+    renderProductos();
+}
 
 
 /* =====================================================
@@ -716,7 +757,7 @@ function iniciarCarrito() {
 
     });
 
-    renderProductos();
+    mostrarCategorias();
 
 }
 

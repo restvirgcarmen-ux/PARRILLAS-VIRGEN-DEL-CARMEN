@@ -395,31 +395,61 @@
 
             <div class="order-preview">
 
-    <div class="menu-categories">
+                <div id="category-view" class="category-view">
 
-        <button class="category-btn active" data-category="parrillas">
-            🔥 Parrillas
-        </button>
+                    <div class="category-view-title">
+                        <div>
+                            <strong>Selecciona una categoría</strong>
+                            <span>Elige los productos para agregarlos al pedido</span>
+                        </div>
+                    </div>
 
-        <button class="category-btn" data-category="alitas">
-            🍗 Alitas
-        </button>
+                    <div class="menu-categories">
 
-        <button class="category-btn" data-category="hamburguesas">
-            🍔 Hamburguesas
-        </button>
+                        <button class="category-btn active" data-category="parrillas">
+                            <span class="category-icon">🔥</span>
+                            <span>Parrillas y anticuchos</span>
+                        </button>
 
-        <button class="category-btn" data-category="tragos">
-            🍹 Tragos
-        </button>
+                        <button class="category-btn" data-category="alitas">
+                            <span class="category-icon">🍗</span>
+                            <span>Alitas</span>
+                        </button>
 
-        <button class="category-btn" data-category="bebidas">
-            🥤 Bebidas
-        </button>
+                        <button class="category-btn" data-category="hamburguesas">
+                            <span class="category-icon">🍔</span>
+                            <span>Hamburguesas</span>
+                        </button>
 
-    </div>
+                        <button class="category-btn" data-category="tragos">
+                            <span class="category-icon">🍹</span>
+                            <span>Tragos</span>
+                        </button>
 
-    <div id="products-container" class="products-container"></div>
+                        <button class="category-btn" data-category="bebidas">
+                            <span class="category-icon">🥤</span>
+                            <span>Bebidas</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div id="products-view" class="products-view hidden">
+
+                    <div class="products-view-header">
+                        <button type="button" id="back-categories" class="back-categories">
+                            ← Categorías
+                        </button>
+                        <div>
+                            <strong id="selected-category-title">Parrillas y anticuchos</strong>
+                            <span>Selecciona la cantidad de cada producto</span>
+                        </div>
+                    </div>
+
+                    <div id="products-container" class="products-container"></div>
+
+                </div>
 
             </div>
 
