@@ -48,11 +48,6 @@ const mesas = [
 
 let mesaSeleccionada = null;
 
-/* =====================================================
-   CARTA DE PRODUCTOS
-   Los productos sin precio quedan en S/ 0.00
-   ===================================================== */
-
  /* =====================================================
    CARTA DE PRODUCTOS
    Los productos sin precio quedan en S/ 0.00
@@ -502,6 +497,229 @@ const productos = [
 
 ];
 
+/* =====================================================
+   CARRITO TEMPORAL DEL PEDIDO
+   ===================================================== */
+
+let carritoTemporal = {};
+let categoriaSeleccionada = "parrillas";
+
+
+/* =====================================================
+   ELEMENTOS DE LA CARTA
+   ===================================================== */
+
+const productsContainer =
+    document.getElementById("products-container");
+
+const categoryButtons =
+    document.querySelectorAll(".category-btn");
+
+
+/* =====================================================
+   CAMBIAR CATEGORÍA
+   ===================================================== */
+
+categoryButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        categoryButtons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        categoriaSeleccionada =
+            button.dataset.category;
+
+        renderProductos();
+
+    });
+
+});
+
+
+/* =====================================================
+   MOSTRAR PRODUCTOS
+   ===================================================== */
+
+function renderProductos() {
+
+    if (!productsContainer) return;
+
+    const lista =
+        productos.filter(producto =>
+            producto.categoria === categoriaSeleccionada
+        );
+
+    productsContainer.innerHTML = "";
+
+    lista.forEach(producto => {
+
+        const cantidad =
+            carritoTemporal[producto.id] || 0;
+
+        const item =
+            document.createElement("div");
+
+        item.className = "product-item";
+
+        item.innerHTML = `
+
+            <div class="product-info">
+
+                <strong>
+                    ${producto.nombre}
+                </strong>
+
+                <span>
+                    S/ ${producto.precio.toFixed(2)}
+                </span>
+
+            </div>
+
+            <div class="product-controls">
+
+                <button
+                    type="button"
+                    class="quantity-btn"
+                    onclick="cambiarCantidad(${producto.id}, -1)">
+                    −
+                </button>
+
+                <span class="quantity">
+                    ${cantidad}
+                </span>
+
+                <button
+                    type="button"
+                    class="quantity-btn"
+                    onclick="cambiarCantidad(${producto.id}, 1)">
+                    +
+                </button>
+
+            </div>
+
+        `;
+
+        productsContainer.appendChild(item);
+
+    });
+
+    actualizarTotalTemporal();
+
+}
+
+
+/* =====================================================
+   CAMBIAR CANTIDAD
+   ===================================================== */
+
+function cambiarCantidad(id, cambio) {
+
+    const cantidadActual =
+        carritoTemporal[id] || 0;
+
+    const nuevaCantidad =
+        cantidadActual + cambio;
+
+    if (nuevaCantidad <= 0) {
+
+        delete carritoTemporal[id];
+
+    } else {
+
+        carritoTemporal[id] =
+            nuevaCantidad;
+
+    }
+
+    renderProductos();
+
+}
+
+
+/* =====================================================
+   CALCULAR TOTAL
+   ===================================================== */
+
+function calcularTotalCarrito() {
+
+    let total = 0;
+
+    Object.keys(carritoTemporal).forEach(id => {
+
+        const producto =
+            productos.find(
+                p => p.id === Number(id)
+            );
+
+        if (!producto) return;
+
+        total +=
+            producto.precio *
+            carritoTemporal[id];
+
+    });
+
+    return total;
+
+}
+
+
+/* =====================================================
+   ACTUALIZAR TOTAL EN EL MODAL
+   ===================================================== */
+
+function actualizarTotalTemporal() {
+
+    const total =
+        calcularTotalCarrito();
+
+    const totalElement =
+        document.querySelector(".order-total strong");
+
+    if (totalElement) {
+
+        totalElement.textContent =
+            `S/ ${total.toFixed(2)}`;
+
+    }
+
+}
+
+
+/* =====================================================
+   INICIAR NUEVO PEDIDO
+   ===================================================== */
+
+function iniciarCarrito() {
+
+    carritoTemporal = {};
+
+    categoriaSeleccionada =
+        "parrillas";
+
+    categoryButtons.forEach(button => {
+
+        button.classList.remove("active");
+
+        if (
+            button.dataset.category ===
+            "parrillas"
+        ) {
+
+            button.classList.add("active");
+
+        }
+
+    });
+
+    renderProductos();
+
+}
+
 /* ================= ELEMENTOS ================= */
 
 const modal = document.getElementById("mesa-modal");
@@ -716,7 +934,8 @@ function abrirMesa(id) {
 
     personasSelect.value = "1";
 
-
+    iniciarCarrito();
+   
     modal.classList.add("show");
 
 }
@@ -749,6 +968,49 @@ saveOrder.addEventListener("click", () => {
     if (!mesaSeleccionada) return;
 
 
+    const productosPedido = [];
+
+
+    Object.keys(carritoTemporal).forEach(id => {
+
+        const producto =
+            productos.find(
+                p => p.id === Number(id)
+            );
+
+        if (!producto) return;
+
+
+        const cantidad =
+            carritoTemporal[id];
+
+
+        productosPedido.push({
+
+            id: producto.id,
+
+            nombre: producto.nombre,
+
+            precio: producto.precio,
+
+            cantidad: cantidad,
+
+            subtotal:
+                producto.precio * cantidad
+
+        });
+
+    });
+
+
+    const total =
+        productosPedido.reduce(
+            (suma, producto) =>
+                suma + producto.subtotal,
+            0
+        );
+
+
     mesaSeleccionada.estado =
         "ocupada";
 
@@ -762,11 +1024,14 @@ saveOrder.addEventListener("click", () => {
         personas:
             Number(personasSelect.value),
 
-        productos: [],
+        productos:
+            productosPedido,
 
-        total: 0,
+        total:
+            total,
 
-        estado: "abierto"
+        estado:
+            "abierto"
 
     };
 
@@ -776,14 +1041,11 @@ saveOrder.addEventListener("click", () => {
 
     renderMesas();
 
-
     actualizarPedidos();
-
 
     cambiarSeccion("pedidos");
 
 });
-
 
 /* ================= PEDIDOS ================= */
 
