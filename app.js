@@ -1,0 +1,1 @@
+console.log("PARRILLAS VIRGEN DEL CARMEN - sistema iniciado");
