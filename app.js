@@ -986,6 +986,14 @@ function abrirMesa(id) {
 
 closeModal.addEventListener("click", () => {
 
+    // Si estamos viendo productos, la flecha REGRESA a categorías
+    // sin cerrar el pedido ni borrar lo seleccionado.
+    if (productsView && !productsView.classList.contains("hidden")) {
+        mostrarCategorias();
+        return;
+    }
+
+    // En la pantalla principal del nuevo pedido, la flecha sí cierra el modal.
     modal.classList.remove("show");
 
 });
