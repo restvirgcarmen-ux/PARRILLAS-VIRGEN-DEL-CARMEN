@@ -53,6 +53,11 @@ let mesaSeleccionada = null;
    Los productos sin precio quedan en S/ 0.00
    ===================================================== */
 
+ /* =====================================================
+   CARTA DE PRODUCTOS
+   Los productos sin precio quedan en S/ 0.00
+   ===================================================== */
+
 const productos = [
 
     /* ================= PARRILLAS Y ANTICUCHOS ================= */
@@ -63,42 +68,49 @@ const productos = [
         categoria: "parrillas",
         precio: 18.00
     },
+
     {
         id: 2,
         nombre: "Anticuchos de mollejas",
         categoria: "parrillas",
         precio: 18.00
     },
+
     {
         id: 3,
         nombre: "Chuleta de res a la parrilla",
         categoria: "parrillas",
         precio: 24.00
     },
+
     {
         id: 4,
         nombre: "Chuleta de cerdo a la parrilla",
         categoria: "parrillas",
         precio: 24.00
     },
+
     {
         id: 5,
         nombre: "Costillas de cerdo BBQ",
         categoria: "parrillas",
         precio: 25.00
     },
+
     {
         id: 6,
         nombre: "Pechuga de pollo a la parrilla",
         categoria: "parrillas",
         precio: 22.00
     },
+
     {
         id: 7,
         nombre: "Pulpo anticuchero",
         categoria: "parrillas",
         precio: 30.00
     },
+
     {
         id: 8,
         nombre: "Langostinos anticucheros",
@@ -106,167 +118,190 @@ const productos = [
         precio: 25.00
     },
 
+
     /* ================= COMBOS PARRILLEROS ================= */
 
     {
         id: 9,
-        nombre: "Combo personal",
+        nombre: "Combo Personal",
         categoria: "parrillas",
         precio: 35.00
     },
+
     {
         id: 10,
-        nombre: "Combo mediano",
+        nombre: "Combo Mediano",
         categoria: "parrillas",
         precio: 55.00
     },
+
     {
         id: 11,
-        nombre: "Combo familiar",
+        nombre: "Combo Familiar",
         categoria: "parrillas",
         precio: 90.00
     },
+
     {
         id: 12,
-        nombre: "Combo parrillero premium",
+        nombre: "Combo Parrillero Premium",
         categoria: "parrillas",
         precio: 120.00
     },
+
 
     /* ================= ALITAS ================= */
 
     {
         id: 13,
-        nombre: "Alitas BBQ - 6 und.",
+        nombre: "Alitas BBQ - 6 unidades",
         categoria: "alitas",
         precio: 18.00
     },
+
     {
         id: 14,
-        nombre: "Alitas BBQ - 12 und.",
+        nombre: "Alitas BBQ - 12 unidades",
         categoria: "alitas",
         precio: 34.00
     },
+
     {
         id: 15,
-        nombre: "Alitas BBQ - 18 und.",
+        nombre: "Alitas BBQ - 18 unidades",
         categoria: "alitas",
         precio: 51.00
     },
+
     {
         id: 16,
-        nombre: "Alitas BBQ - 24 und.",
+        nombre: "Alitas BBQ - 24 unidades",
         categoria: "alitas",
         precio: 65.00
     },
 
     {
         id: 17,
-        nombre: "Alitas Búfalo - 6 und.",
+        nombre: "Alitas Búfalo - 6 unidades",
         categoria: "alitas",
         precio: 18.00
     },
+
     {
         id: 18,
-        nombre: "Alitas Búfalo - 12 und.",
+        nombre: "Alitas Búfalo - 12 unidades",
         categoria: "alitas",
         precio: 34.00
     },
+
     {
         id: 19,
-        nombre: "Alitas Búfalo - 18 und.",
+        nombre: "Alitas Búfalo - 18 unidades",
         categoria: "alitas",
         precio: 51.00
     },
+
     {
         id: 20,
-        nombre: "Alitas Búfalo - 24 und.",
+        nombre: "Alitas Búfalo - 24 unidades",
         categoria: "alitas",
         precio: 65.00
     },
 
     {
         id: 21,
-        nombre: "Alitas de maracuyá - 6 und.",
+        nombre: "Alitas de Maracuyá - 6 unidades",
         categoria: "alitas",
         precio: 18.00
     },
+
     {
         id: 22,
-        nombre: "Alitas de maracuyá - 12 und.",
+        nombre: "Alitas de Maracuyá - 12 unidades",
         categoria: "alitas",
         precio: 34.00
     },
+
     {
         id: 23,
-        nombre: "Alitas de maracuyá - 18 und.",
+        nombre: "Alitas de Maracuyá - 18 unidades",
         categoria: "alitas",
         precio: 51.00
     },
+
     {
         id: 24,
-        nombre: "Alitas de maracuyá - 24 und.",
+        nombre: "Alitas de Maracuyá - 24 unidades",
         categoria: "alitas",
         precio: 65.00
     },
 
     {
         id: 25,
-        nombre: "Alitas acevichadas - 6 und.",
+        nombre: "Alitas Acevichadas - 6 unidades",
         categoria: "alitas",
         precio: 18.00
     },
+
     {
         id: 26,
-        nombre: "Alitas acevichadas - 12 und.",
+        nombre: "Alitas Acevichadas - 12 unidades",
         categoria: "alitas",
         precio: 34.00
     },
+
     {
         id: 27,
-        nombre: "Alitas acevichadas - 18 und.",
+        nombre: "Alitas Acevichadas - 18 unidades",
         categoria: "alitas",
         precio: 51.00
     },
+
     {
         id: 28,
-        nombre: "Alitas acevichadas - 24 und.",
+        nombre: "Alitas Acevichadas - 24 unidades",
         categoria: "alitas",
         precio: 65.00
     },
+
 
     /* ================= HAMBURGUESAS ================= */
 
     {
         id: 29,
-        nombre: "Hamburguesa clásica",
+        nombre: "Hamburguesa Clásica",
         categoria: "hamburguesas",
         precio: 8.00
     },
+
     {
         id: 30,
         nombre: "Cheeseburger",
         categoria: "hamburguesas",
         precio: 15.00
     },
+
     {
         id: 31,
         nombre: "Hamburguesa BBQ",
         categoria: "hamburguesas",
         precio: 14.00
     },
+
     {
         id: 32,
-        nombre: "Hamburguesa hawaiana",
+        nombre: "Hamburguesa Hawaiana",
         categoria: "hamburguesas",
         precio: 15.00
     },
+
     {
         id: 33,
-        nombre: "Royal clásica",
+        nombre: "Royal Clásica",
         categoria: "hamburguesas",
         precio: 15.00
     },
+
 
     /* ================= TRAGOS ================= */
 
@@ -276,78 +311,91 @@ const productos = [
         categoria: "tragos",
         precio: 14.00
     },
+
     {
         id: 35,
         nombre: "Maracuyá Sour",
         categoria: "tragos",
         precio: 14.00
     },
+
     {
         id: 36,
         nombre: "Pisco Sour",
         categoria: "tragos",
         precio: 14.00
     },
+
     {
         id: 37,
         nombre: "Mojito",
         categoria: "tragos",
         precio: 13.00
     },
+
     {
         id: 38,
         nombre: "Chilcano",
         categoria: "tragos",
         precio: 12.00
     },
+
     {
         id: 39,
         nombre: "Daiquiri",
         categoria: "tragos",
         precio: 14.00
     },
+
     {
         id: 40,
         nombre: "Planters Punch",
         categoria: "tragos",
         precio: 14.00
     },
+
     {
         id: 41,
         nombre: "Laguna Azul",
         categoria: "tragos",
         precio: 13.00
     },
+
     {
         id: 42,
-        nombre: "Esperma de Pitufos",
+        nombre: "Esperma de Pitufo",
         categoria: "tragos",
-        precio: 12.00
+        precio: 14.00
     },
+
     {
         id: 43,
-        nombre: "Rambox Paradise",
+        nombre: "Rainbow Paradise",
         categoria: "tragos",
         precio: 12.00
     },
+
     {
         id: 44,
         nombre: "Cuba Libre",
         categoria: "tragos",
         precio: 12.00
     },
+
     {
         id: 45,
         nombre: "Perú Libre",
         categoria: "tragos",
         precio: 12.00
     },
+
     {
         id: 46,
-        nombre: "Júgele de Algarrobina",
+        nombre: "Cóctel de Algarrobina",
         categoria: "tragos",
         precio: 14.00
     },
+
     {
         id: 47,
         nombre: "Piña Colada",
@@ -355,7 +403,8 @@ const productos = [
         precio: 14.00
     },
 
-    /* ================= BEBIDAS NATURALES ================= */
+
+    /* ================= BEBIDAS ================= */
 
     {
         id: 48,
@@ -363,12 +412,14 @@ const productos = [
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 49,
         nombre: "Maracuyá",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 50,
         nombre: "Limonada Frozen",
@@ -376,20 +427,20 @@ const productos = [
         precio: 0.00
     },
 
-    /* ================= GASEOSAS ================= */
-
     {
         id: 51,
         nombre: "Coca Cola",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 52,
         nombre: "Inca Kola",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 53,
         nombre: "Guaraná",
@@ -397,26 +448,27 @@ const productos = [
         precio: 0.00
     },
 
-    /* ================= CERVEZAS ================= */
-
     {
         id: 54,
         nombre: "Cristal",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 55,
         nombre: "Cusqueña Trigo",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 56,
         nombre: "Cusqueña Negra",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 57,
         nombre: "Pilsen",
@@ -424,20 +476,20 @@ const productos = [
         precio: 0.00
     },
 
-    /* ================= OTROS ================= */
-
     {
         id: 58,
         nombre: "Agua",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 59,
         nombre: "Sporade",
         categoria: "bebidas",
         precio: 0.00
     },
+
     {
         id: 60,
         nombre: "Vino",
@@ -445,44 +497,8 @@ const productos = [
         precio: 0.00
     },
 
-    /* ================= SALSAS EXTRA ================= */
 
-    {
-        id: 61,
-        nombre: "Salsa BBQ extra",
-        categoria: "alitas",
-        precio: 5.00
-    },
-    {
-        id: 62,
-        nombre: "Salsa Búfalo extra",
-        categoria: "alitas",
-        precio: 5.00
-    },
-    {
-        id: 63,
-        nombre: "Salsa Maracuyá extra",
-        categoria: "alitas",
-        precio: 5.00
-    },
-    {
-        id: 64,
-        nombre: "Salsa Acevichada extra",
-        categoria: "alitas",
-        precio: 5.00
-    },
-    {
-        id: 65,
-        nombre: "Salsa Chimichurri extra",
-        categoria: "alitas",
-        precio: 5.00
-    },
-    {
-        id: 66,
-        nombre: "Salsa Huancaína extra",
-        categoria: "alitas",
-        precio: 5.00
-    }
+    /* ================= FIN DE PRODUCTOS ================= */
 
 ];
 
