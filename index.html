@@ -1,54 +1,438 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PARRILLAS VIRGEN DEL CARMEN</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PARRILLAS VIRGEN DEL CARMEN</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div id="app">
-    <aside class="sidebar">
-      <div class="brand">🔥 PARRILLAS<small>VIRGEN DEL CARMEN</small></div>
-      <nav>
-        <a class="active" href="#">🏠 Inicio</a>
-        <a href="#">🍽️ Mesas</a>
-        <a href="#">🧾 Pedidos</a>
-        <a href="#">🍹 Tragos</a>
-        <a href="#">🔥 Parrillas</a>
-        <a href="#">💰 Caja</a>
-        <a href="#">📊 Ventas</a>
-        <a href="#">⚙️ Ajustes</a>
-      </nav>
-    </aside>
 
-    <main class="main">
-      <header>
-        <div>
-          <h1>Panel principal</h1>
-          <p>Sistema de gestión · Tragos y Parrillas</p>
+    <div class="app">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <div class="logo-icon">🔥</div>
+
+                <div>
+                    <h1>PARRILLAS</h1>
+                    <span>VIRGEN DEL CARMEN</span>
+                </div>
+            </div>
+
+
+            <nav class="menu">
+
+                <button class="menu-item active" data-section="inicio">
+                    <span>🏠</span>
+                    Inicio
+                </button>
+
+                <button class="menu-item" data-section="mesas">
+                    <span>🪑</span>
+                    Mesas
+                </button>
+
+                <button class="menu-item" data-section="pedidos">
+                    <span>🧾</span>
+                    Pedidos
+                </button>
+
+                <button class="menu-item" data-section="barra">
+                    <span>🍹</span>
+                    Barra
+                </button>
+
+                <button class="menu-item" data-section="cocina">
+                    <span>🔥</span>
+                    Cocina
+                </button>
+
+                <button class="menu-item" data-section="caja">
+                    <span>💰</span>
+                    Caja
+                </button>
+
+                <button class="menu-item" data-section="ventas">
+                    <span>📊</span>
+                    Ventas
+                </button>
+
+                <button class="menu-item" data-section="ajustes">
+                    <span>⚙️</span>
+                    Ajustes
+                </button>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+                <span>Administrador</span>
+                <small>Sistema de gestión</small>
+            </div>
+
+        </aside>
+
+
+        <!-- ================= CONTENIDO ================= -->
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <div>
+                    <h2 id="page-title">Inicio</h2>
+                    <p>PARRILLAS VIRGEN DEL CARMEN</p>
+                </div>
+
+                <div class="user">
+                    👤 Administrador
+                </div>
+
+            </header>
+
+
+            <!-- ================= INICIO ================= -->
+
+            <section id="inicio" class="section active">
+
+                <div class="welcome">
+
+                    <div>
+                        <h2>Bienvenido</h2>
+
+                        <p>
+                            Sistema de gestión para Tragos y Parrillas
+                        </p>
+                    </div>
+
+                    <div class="system-status">
+                        ● Sistema activo
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-cards">
+
+                    <div class="dashboard-card">
+                        <span class="card-icon">🪑</span>
+                        <strong id="total-mesas">6</strong>
+                        <small>Mesas</small>
+                    </div>
+
+
+                    <div class="dashboard-card">
+                        <span class="card-icon">🔴</span>
+                        <strong id="mesas-ocupadas">0</strong>
+                        <small>Mesas ocupadas</small>
+                    </div>
+
+
+                    <div class="dashboard-card">
+                        <span class="card-icon">🧾</span>
+                        <strong id="pedidos-activos">0</strong>
+                        <small>Pedidos activos</small>
+                    </div>
+
+
+                    <div class="dashboard-card">
+                        <span class="card-icon">💰</span>
+                        <strong id="ventas-hoy">S/ 0.00</strong>
+                        <small>Ventas del día</small>
+                    </div>
+
+                </div>
+
+
+                <div class="section-heading">
+
+                    <div>
+                        <h3>Mesas</h3>
+                        <p>Selecciona una mesa para comenzar un pedido.</p>
+                    </div>
+
+                    <button class="btn-primary" id="go-mesas">
+                        Ver mesas
+                    </button>
+
+                </div>
+
+
+                <div class="tables" id="tables-home"></div>
+
+            </section>
+
+
+            <!-- ================= MESAS ================= -->
+
+            <section id="mesas" class="section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Mesas</h2>
+                        <p>Control de las mesas del salón.</p>
+                    </div>
+
+                </div>
+
+                <div class="tables" id="tables-page"></div>
+
+            </section>
+
+
+            <!-- ================= PEDIDOS ================= -->
+
+            <section id="pedidos" class="section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Pedidos</h2>
+                        <p>Pedidos actualmente abiertos.</p>
+                    </div>
+
+                </div>
+
+                <div id="orders-container" class="empty-state">
+
+                    <div>🧾</div>
+
+                    <h3>No hay pedidos activos</h3>
+
+                    <p>
+                        Los pedidos aparecerán aquí cuando abras una mesa.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= BARRA ================= -->
+
+            <section id="barra" class="section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>🍹 Barra</h2>
+                        <p>Pedidos de tragos y bebidas.</p>
+                    </div>
+
+                </div>
+
+                <div class="empty-state">
+                    <div>🍹</div>
+                    <h3>Barra</h3>
+                    <p>
+                        Aquí aparecerán los pedidos de tragos.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- ================= COCINA ================= -->
+
+            <section id="cocina" class="section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>🔥 Cocina</h2>
+                        <p>Pedidos de parrillas y comidas.</p>
+                    </div>
+
+                </div>
+
+                <div class="empty-state">
+                    <div>🔥</div>
+                    <h3>Cocina</h3>
+                    <p>
+                        Aquí aparecerán los pedidos de cocina.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- ================= CAJA ================= -->
+
+            <section id="caja" class="section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>💰 Caja</h2>
+                        <p>Control de cobros y caja.</p>
+                    </div>
+
+                </div>
+
+                <div class="empty-state">
+                    <div>💰</div>
+                    <h3>Caja</h3>
+                    <p>
+                        El módulo de caja lo construiremos después.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- ================= VENTAS ================= -->
+
+            <section id="ventas" class="section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>📊 Ventas</h2>
+                        <p>Historial y reportes.</p>
+                    </div>
+
+                </div>
+
+                <div class="empty-state">
+                    <div>📊</div>
+                    <h3>Ventas</h3>
+                    <p>
+                        Los reportes estarán disponibles próximamente.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- ================= AJUSTES ================= -->
+
+            <section id="ajustes" class="section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>⚙️ Ajustes</h2>
+                        <p>Configuración del sistema.</p>
+                    </div>
+
+                </div>
+
+                <div class="empty-state">
+                    <div>⚙️</div>
+                    <h3>Configuración</h3>
+                    <p>
+                        Aquí configuraremos productos, mesas y usuarios.
+                    </p>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= MODAL MESA ================= -->
+
+    <div id="mesa-modal" class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="modal-mesa-title">Mesa 01</h2>
+                    <p>Nuevo pedido</p>
+                </div>
+
+                <button class="close-modal" id="close-modal">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="client-form">
+
+                <label>
+                    Cliente
+                    <input
+                        type="text"
+                        id="cliente"
+                        placeholder="Nombre del cliente"
+                    >
+                </label>
+
+
+                <label>
+                    Personas
+
+                    <select id="personas">
+
+                        <option value="1">1 persona</option>
+                        <option value="2">2 personas</option>
+                        <option value="3">3 personas</option>
+                        <option value="4">4 personas</option>
+                        <option value="5">5 personas</option>
+                        <option value="6">6 personas</option>
+                        <option value="7">7 personas</option>
+                        <option value="8">8 personas</option>
+
+                    </select>
+
+                </label>
+
+            </div>
+
+
+            <div class="order-preview">
+
+                <div class="order-empty">
+
+                    <div>🧾</div>
+
+                    <h3>Pedido vacío</h3>
+
+                    <p>
+                        La carta se cargará aquí cuando recibamos
+                        los productos de Parrillas y Tragos.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="order-total">
+
+                    <span>Total</span>
+
+                    <strong>S/ 0.00</strong>
+
+                </div>
+
+                <button class="btn-primary" id="save-order">
+                    Abrir pedido
+                </button>
+
+            </div>
+
         </div>
-        <strong>👤 Administrador</strong>
-      </header>
 
-      <section class="welcome">
-        <h2>Bienvenido</h2>
-        <p>Gestiona mesas, pedidos, tragos, parrillas y caja.</p>
-      </section>
+    </div>
 
-      <section>
-        <h2>Mesas</h2>
-        <div class="tables">
-          <button class="table free">Mesa 01<span>Libre</span></button>
-          <button class="table free">Mesa 02<span>Libre</span></button>
-          <button class="table occupied">Mesa 03<span>Ocupada</span></button>
-          <button class="table free">Mesa 04<span>Libre</span></button>
-          <button class="table occupied">Mesa 05<span>Ocupada</span></button>
-          <button class="table free">Mesa 06<span>Libre</span></button>
-        </div>
-      </section>
-    </main>
-  </div>
-  <script src="js/app.js"></script>
+
+    <script src="app.js"></script>
+
 </body>
 </html>
