@@ -1,1 +1,14 @@
-{"name":"parrillas-virgen-del-carmen","version":"1.0.0","private":true,"description":"Sistema de gestion para TRAGOS Y PARRILAS VIRGEN DEL CARMEN"}
+{
+  "name": "parrillas-virgen-del-carmen",
+  "version": "1.0.0",
+  "description": "Sistema de gestión para Parrillas Virgen del Carmen",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
