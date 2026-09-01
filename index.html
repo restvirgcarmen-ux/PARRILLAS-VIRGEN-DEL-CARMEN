@@ -26,7 +26,7 @@
             overflow-x: hidden;
         }
 
-        /* --- NAVBAR FIJO PARA TODO EL SISTEMA --- */
+        /* --- NAVBAR FIJO --- */
         .navbar {
             background-color: var(--bg-navbar);
             color: var(--texto-blanco);
@@ -64,7 +64,6 @@
             position: relative;
         }
 
-        /* Clase para las vistas/pantallas */
         .view-screen {
             background: #ffffff;
             padding: 30px;
@@ -78,7 +77,6 @@
             transform: scale(1);
         }
 
-        /* Efecto de transición (Desaparecer) */
         .view-screen.fade-out {
             opacity: 0;
             transform: scale(0.95);
@@ -89,7 +87,7 @@
             display: none !important;
         }
 
-        /* --- ESTILOS: PANTALLA 1 (LOGIN) --- */
+        /* --- PANTALLA 1: LOGIN --- */
         .login-title {
             font-size: 1.1rem;
             font-weight: bold;
@@ -113,7 +111,7 @@
             border-color: #34495e;
         }
 
-        /* Mensajes de Error (Modales personalizados de alerta) */
+        /* Modales de alerta personalizados */
         .modal-alert {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -133,7 +131,7 @@
             padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;
         }
 
-        /* --- ESTILOS: PANTALLA 2 (APERTURA CAJA) --- */
+        /* --- PANTALLA 2: APERTURA CAJA --- */
         .caja-title {
             font-size: 1.3rem;
             font-weight: bold;
@@ -166,7 +164,6 @@
             border-color: #000;
         }
         
-        /* Animación para la aparición del campo nombre */
         .animated-field {
             animation: slideDown 0.3s ease-out forwards;
         }
@@ -211,9 +208,9 @@
         <!-- ================= PANTALLA 1: LOGIN ================= -->
         <section id="screen-login" class="view-screen">
             <div class="login-title">Ingrese su clave de seguridad</div>
-            <!-- Envolvemos en un formulario HTML nativo para garantizar compatibilidad con el botón de envío -->
-            <form onsubmit="validarClaveManual(event)">
-                <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••" required>
+            <!-- El formulario ahora captura el evento submit de forma nativa -->
+            <form id="login-form" onsubmit="validarClaveManual(event)">
+                <input type="password" name="seguridad_pin" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••" required>
                 <button type="submit" class="btn-submit">Ingresar</button>
             </form>
         </section>
@@ -227,7 +224,6 @@
                 <input type="text" id="input-dni" class="form-input" maxlength="8" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese 8 dígitos" autocomplete="off">
             </div>
 
-            <!-- Campo dinámico para nombres y apellidos (oculto por defecto) -->
             <div id="wrapper-nombre" class="form-group hidden animated-field">
                 <label for="input-nombre">Nombres y Apellidos</label>
                 <input type="text" id="input-nombre" class="form-input" placeholder="Ej: Juan Pérez Morales">
@@ -238,7 +234,7 @@
 
     </main>
 
-    <!-- VENTANA MODAL PERSONALIZADA PARA ERRORES -->
+    <!-- ALERTA EMERGENTE PERSONALIZADA -->
     <div id="custom-alert" class="modal-alert hidden">
         <div class="modal-alert-box">
             <div id="alert-title" class="modal-alert-title">Error</div>
@@ -247,17 +243,16 @@
         </div>
     </div>
 
-    <!-- CONTROLADORES Y LÓGICA DE TRANSICIONES -->
+    <!-- CONTROLADORES -->
     <script>
-        // --- CONFIGURACIÓN DE SEGURIDAD INTERNA ---
         const CLAVE_SISTEMA = "123456"; 
         let intentosFallidos = 0;
         let sistemaBloqueado = false;
 
         let bdUsuariosSimulada = JSON.parse(localStorage.getItem('bd_dni_usuarios')) || {};
 
-        // Controlar el ingreso de DNI de forma simple
-        document.getElementById("input-dni").addEventListener("input", function(e) {
+        // Escuchar la entrada de DNI de forma limpia
+        document.getElementById("input-dni").addEventListener("input", function() {
             if (this.value.length === 8) {
                 verificarExistenciaDNI(this.value);
             } else {
@@ -265,7 +260,6 @@
             }
         });
 
-        // --- FUNCIONES DE ALERTA PERSONALIZADA ---
         function mostrarAlerta(titulo, mensaje) {
             document.getElementById("alert-title").innerText = titulo;
             document.getElementById("alert-text").innerText = mensaje;
@@ -279,10 +273,19 @@
             }
         }
 
-        // --- LÓGICA DE VALIDACIÓN CONFIABLE POR FORMULARIO ---
+        // --- VALIDACIÓN LOGÍSTICA COMPLETA ---
         function validarClaveManual(event) {
-            // Evita que la página web se recargue por el formulario
             if (event) event.preventDefault();
-            
             if (sistemaBloqueado) return;
+
+            // Extraemos el valor del formulario de manera nativa para evitar problemas de lectura del DOM
+            const form = document.getElementById("login-form");
+            const formData = new FormData(form);
+            const valorIngresado = formData.get("seguridad_pin");
+
+            if (!valorIngresado) return;
+
+            if (valorIngresado === CLAVE_SISTEMA) {
+                intentosFallidos = 0;
+                ejecutarTransicionA(document.getElementById("screen-login"), document.getElementById("screen-caja"));
 
