@@ -3,479 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>PARRILLAS VIRGEN DEL CARMEN</title>
-
+    <title>Byte - Picantería Virgen del Carmen</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-    <div class="app">
-
-        <!-- ================= SIDEBAR ================= -->
-
-        <aside class="sidebar">
-
-            <div class="logo">
-                <div class="logo-icon">🔥</div>
-
-                <div>
-                    <h1>PARRILLAS</h1>
-                    <span>VIRGEN DEL CARMEN</span>
-                </div>
+    <!-- Encabezado del Sistema -->
+    <header class="system-header">
+        <div class="header-brand">
+            <span class="brand-icon">🍽️</span>
+            <div>
+                <h1>BYTE</h1>
+                <h2>PICANTERÍA VIRGEN DEL CARMEN</h2>
             </div>
-
-
-            <nav class="menu">
-
-                <button class="menu-item active" data-section="inicio">
-                    <span>🏠</span>
-                    Inicio
-                </button>
-
-                <button class="menu-item" data-section="mesas">
-                    <span>🪑</span>
-                    Mesas
-                </button>
-
-                <button class="menu-item" data-section="pedidos">
-                    <span>🧾</span>
-                    Pedidos
-                </button>
-
-                <button class="menu-item" data-section="barra">
-                    <span>🍹</span>
-                    Barra
-                </button>
-
-                <button class="menu-item" data-section="cocina">
-                    <span>🔥</span>
-                    Cocina
-                </button>
-
-                <button class="menu-item" data-section="caja">
-                    <span>💰</span>
-                    Caja
-                </button>
-
-                <button class="menu-item" data-section="ventas">
-                    <span>📊</span>
-                    Ventas
-                </button>
-
-                <button class="menu-item" data-section="ajustes">
-                    <span>⚙️</span>
-                    Ajustes
-                </button>
-
-            </nav>
-
-
-            <div class="sidebar-footer">
-                <span>Administrador</span>
-                <small>Sistema de gestión</small>
-            </div>
-
-        </aside>
-
-
-        <!-- ================= CONTENIDO ================= -->
-
-        <main class="main">
-
-            <header class="topbar">
-
-                <div>
-                    <h2 id="page-title">Inicio</h2>
-                    <p>PARRILLAS VIRGEN DEL CARMEN</p>
-                </div>
-
-                <div class="user">
-                    👤 Administrador
-                </div>
-
-            </header>
-
-
-            <!-- ================= INICIO ================= -->
-
-            <section id="inicio" class="section active">
-
-                <div class="welcome">
-
-                    <div>
-                        <h2>Bienvenido</h2>
-
-                        <p>
-                            Sistema de gestión para Tragos y Parrillas
-                        </p>
-                    </div>
-
-                    <div class="system-status">
-                        ● Sistema activo
-                    </div>
-
-                </div>
-
-
-                <div class="dashboard-cards">
-
-                    <div class="dashboard-card">
-                        <span class="card-icon">🪑</span>
-                        <strong id="total-mesas">6</strong>
-                        <small>Mesas</small>
-                    </div>
-
-
-                    <div class="dashboard-card">
-                        <span class="card-icon">🔴</span>
-                        <strong id="mesas-ocupadas">0</strong>
-                        <small>Mesas ocupadas</small>
-                    </div>
-
-
-                    <div class="dashboard-card">
-                        <span class="card-icon">🧾</span>
-                        <strong id="pedidos-activos">0</strong>
-                        <small>Pedidos activos</small>
-                    </div>
-
-
-                    <div class="dashboard-card">
-                        <span class="card-icon">💰</span>
-                        <strong id="ventas-hoy">S/ 0.00</strong>
-                        <small>Ventas del día</small>
-                    </div>
-
-                </div>
-
-
-                <div class="section-heading">
-
-                    <div>
-                        <h3>Mesas</h3>
-                        <p>Selecciona una mesa para comenzar un pedido.</p>
-                    </div>
-
-                    <button class="btn-primary" id="go-mesas">
-                        Ver mesas
-                    </button>
-
-                </div>
-
-
-                <div class="tables" id="tables-home"></div>
-
-            </section>
-
-
-            <!-- ================= MESAS ================= -->
-
-            <section id="mesas" class="section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>Mesas</h2>
-                        <p>Control de las mesas del salón.</p>
-                    </div>
-
-                </div>
-
-                <div class="tables" id="tables-page"></div>
-
-            </section>
-
-
-            <!-- ================= PEDIDOS ================= -->
-
-            <section id="pedidos" class="section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>Pedidos</h2>
-                        <p>Pedidos actualmente abiertos.</p>
-                    </div>
-
-                </div>
-
-                <div id="orders-container" class="empty-state">
-
-                    <div>🧾</div>
-
-                    <h3>No hay pedidos activos</h3>
-
-                    <p>
-                        Los pedidos aparecerán aquí cuando abras una mesa.
-                    </p>
-
-                </div>
-
-            </section>
-
-
-            <!-- ================= BARRA ================= -->
-
-            <section id="barra" class="section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>🍹 Barra</h2>
-                        <p>Pedidos de tragos y bebidas.</p>
-                    </div>
-
-                </div>
-
-                <div class="empty-state">
-                    <div>🍹</div>
-                    <h3>Barra</h3>
-                    <p>
-                        Aquí aparecerán los pedidos de tragos.
-                    </p>
-                </div>
-
-            </section>
-
-
-            <!-- ================= COCINA ================= -->
-
-            <section id="cocina" class="section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>🔥 Cocina</h2>
-                        <p>Pedidos de parrillas y comidas.</p>
-                    </div>
-
-                </div>
-
-                <div class="empty-state">
-                    <div>🔥</div>
-                    <h3>Cocina</h3>
-                    <p>
-                        Aquí aparecerán los pedidos de cocina.
-                    </p>
-                </div>
-
-            </section>
-
-
-            <!-- ================= CAJA ================= -->
-
-            <section id="caja" class="section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>💰 Caja</h2>
-                        <p>Control de cobros y caja.</p>
-                    </div>
-
-                </div>
-
-                <div class="empty-state">
-                    <div>💰</div>
-                    <h3>Caja</h3>
-                    <p>
-                        El módulo de caja lo construiremos después.
-                    </p>
-                </div>
-
-            </section>
-
-
-            <!-- ================= VENTAS ================= -->
-
-            <section id="ventas" class="section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>📊 Ventas</h2>
-                        <p>Historial y reportes.</p>
-                    </div>
-
-                </div>
-
-                <div class="empty-state">
-                    <div>📊</div>
-                    <h3>Ventas</h3>
-                    <p>
-                        Los reportes estarán disponibles próximamente.
-                    </p>
-                </div>
-
-            </section>
-
-
-            <!-- ================= AJUSTES ================= -->
-
-            <section id="ajustes" class="section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>⚙️ Ajustes</h2>
-                        <p>Configuración del sistema.</p>
-                    </div>
-
-                </div>
-
-                <div class="empty-state">
-                    <div>⚙️</div>
-                    <h3>Configuración</h3>
-                    <p>
-                        Aquí configuraremos productos, mesas y usuarios.
-                    </p>
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-
-    <!-- ================= MODAL MESA ================= -->
-
-    <div id="mesa-modal" class="modal">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <div>
-                    <h2 id="modal-mesa-title">Mesa 01</h2>
-                    <p>Nuevo pedido</p>
-                </div>
-
-                <button class="close-modal" id="close-modal" type="button" aria-label="Regresar">
-                    ←
-                </button>
-
-            </div>
-
-
-            <div class="client-form">
-
-                <label>
-                    Cliente
-                    <input
-                        type="text"
-                        id="cliente"
-                        placeholder="Nombre del cliente"
-                    >
-                </label>
-
-
-                <label>
-                    Personas
-
-                    <select id="personas">
-
-                        <option value="1">1 persona</option>
-                        <option value="2">2 personas</option>
-                        <option value="3">3 personas</option>
-                        <option value="4">4 personas</option>
-                        <option value="5">5 personas</option>
-                        <option value="6">6 personas</option>
-                        <option value="7">7 personas</option>
-                        <option value="8">8 personas</option>
-
-                    </select>
-
-                </label>
-
-            </div>
-
-
-            <div class="order-preview">
-
-                <div id="category-view" class="category-view">
-
-                    <div class="category-view-title">
-                        <div>
-                            <strong>Selecciona una categoría</strong>
-                            <span>Elige los productos para agregarlos al pedido</span>
-                        </div>
-                    </div>
-
-                    <div class="menu-categories">
-
-                        <button class="category-btn active" data-category="parrillas">
-                            <span class="category-icon">🔥</span>
-                            <span>Parrillas y anticuchos</span>
-                        </button>
-
-                        <button class="category-btn" data-category="alitas">
-                            <span class="category-icon">🍗</span>
-                            <span>Alitas</span>
-                        </button>
-
-                        <button class="category-btn" data-category="hamburguesas">
-                            <span class="category-icon">🍔</span>
-                            <span>Hamburguesas</span>
-                        </button>
-
-                        <button class="category-btn" data-category="tragos">
-                            <span class="category-icon">🍹</span>
-                            <span>Tragos</span>
-                        </button>
-
-                        <button class="category-btn" data-category="bebidas">
-                            <span class="category-icon">🥤</span>
-                            <span>Bebidas</span>
-                        </button>
-
-                    </div>
-
-                </div>
-
-                <div id="products-view" class="products-view hidden">
-
-                    <div class="products-view-header">
-                        <button type="button" id="back-categories" class="back-categories">
-                            ← Categorías
-                        </button>
-                        <div>
-                            <strong id="selected-category-title">Parrillas y anticuchos</strong>
-                            <span>Selecciona la cantidad de cada producto</span>
-                        </div>
-                    </div>
-
-                    <div id="products-container" class="products-container"></div>
-
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-
-                <div class="order-total">
-
-                    <span>Total</span>
-
-                    <strong>S/ 0.00</strong>
-
-                </div>
-
-                <button class="btn-primary" id="save-order">
-                    Abrir pedido
-                </button>
-
-            </div>
-
         </div>
+        <div class="header-menu">☰</div>
+    </header>
 
+    <main class="container">
+        <!-- VISTA 1: PLANO DE MESAS Y ZONAS -->
+        <section id="vista-mesas" class="view-section">
+            <!-- Alerta de Impresión -->
+            <div class="alert-box">
+                ⚠️ <strong>¡Importante!</strong> La configuración de impresión está incompleta
+            </div>
+
+            <!-- Acordeón Zona Principal -->
+            <div class="accordion-zone active" data-zone="principal">
+                <div class="accordion-header zone-principal-bar" onclick="toggleZone('principal')">
+                    <span>🪑 PRINCIPAL - <span id="count-principal">3</span> Activas</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content grid-mesas" id="zone-content-principal">
+                    <!-- Las mesas se generarán dinámicamente con JavaScript -->
+                </div>
+            </div>
+
+            <!-- Acordeón Zona Adentro -->
+            <div class="accordion-zone" data-zone="adentro">
+                <div class="accordion-header zone-adentro-bar" onclick="toggleZone('adentro')">
+                    <span>🏠 ADENTRO - 0 Activas</span>
+                    <span class="arrow">▶</span>
+                </div>
+                <div class="accordion-content grid-mesas hidden" id="zone-content-adentro"></div>
+            </div>
+        </section>
+
+        <!-- VISTA 2: PUNTO DE VENTA / COMANDAS -->
+        <section id="vista-pos" class="view-section hidden">
+            <div class="pos-layout">
+                <!-- Panel de Menú / Productos (Izquierda) -->
+                <div class="pos-menu-panel">
+                    <div class="search-container">
+                        <input type="text" placeholder="Buscar..." class="search-input">
+                    </div>
+                    
+                    <!-- Categorías / Productos Grid -->
+                    <div class="menu-grid" id="grid-categorias-productos">
+                        <!-- Categorías Base -->
+                        <button class="btn-category cat-naranja" onclick="cargarProductos('alitas')">ALITAS</button>
+                        <button class="btn-category cat-azul" onclick="cargarProductos('cebiches')">CEBICHES</button>
+                        <button class="btn-category cat-verde" onclick="cargarProductos('rondas')">RONDAS</button>
+                        <button class="btn-category cat-rojo" onclick="cargarProductos('carnes')">CARNES</button>
+                    </div>
+                </div>
+
+                <!-- Panel de Detalle del Pedido (Derecha) -->
+                <div class="pos-order-panel">
+                    <div class="order-header-info">
+                        <div><strong>MESA:</strong> <span id="pos-mesa-num">01</span></div>
+                        <div><strong>MOZO:</strong> Gerardo</div>
+                    </div>
+
+                    <div class="order-table-container">
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Cnt</th>
+                                    <th>St</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order-items-body">
+                                <tr>
+                                    <td colspan="4" class="empty-cart">Sin Ítems Aún</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Panel de Acciones y Totales -->
+                    <div class="order-summary">
+                        <div class="summary-row">Items: <span id="summary-count">0</span></div>
+                        <div class="summary-row total-row">Total: S/ <span id="summary-total">0.00</span></div>
+                    </div>
+
+                    <div class="pos-actions-grid">
+                        <button class="btn-action action-green" onclick="enviarPedido()">📝 Enviar Pedido</button>
+                        <button class="btn-action action-cyan">🖨️ Imprimir Cuenta</button>
+                        <button class="btn-action action-blue" onclick="finalizarVenta()">💵 Finalizar Venta</button>
+                        <button class="btn-action action-red" onclick="volverAMesas()">⬅️ Volver a Mesas</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- VENTANA MODAL: APERTURAR MESA -->
+    <div id="modal-apertura" class="modal-backdrop hidden">
+        <div class="modal-box">
+            <h3>Aperturar Mesa <span id="modal-mesa-id">00</span></h3>
+            <div class="form-group">
+                <label>Cliente</label>
+                <input type="text" id="input-cliente" placeholder="Ingresa un nombre">
+            </div>
+            <div class="form-group">
+                <label>Personas</label>
+                <div class="counter-control">
+                    <button onclick="updatePersonas(-1)">-</button>
+                    <input type="number" id="input-personas" value="1" readonly>
+                    <button onclick="updatePersonas(1)">+</button>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-confirm" onclick="confirmarApertura()">Aperturar Mesa</button>
+            </div>
+        </div>
     </div>
-
-
-    <script src="app.js"></script>
-
 </body>
 </html>
+
