@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parrillas Virgen del Carmen - Sistema de Gestión</title>
+    <title>Parrillas Virgen del Carmen - Sistema Integral de Gestión</title>
     <style>
-        /* --- ESTILOS GLOBALES --- */
+        /* --- ARQUITECTURA DE DISEÑO Y VARIABLES CSS --- */
         :root {
             --bg-navbar: #000000;
             --bg-sistema: #ebf5fb; 
             --texto-blanco: #ffffff;
             --texto-oscuro: #2c3e50;
             --btn-negro: #000000;
-            
-            /* Colores del plano de salones */
             --bar-principal: #ff9f9f;
             --bar-adentro: #f1f58f;
             --mesa-libre: #7f8c8d;
@@ -22,259 +20,93 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-sistema);
             color: var(--texto-oscuro);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            user-select: none;
+            display: flex; flex-direction: column;
+            overflow-x: hidden; user-select: none;
         }
 
-        /* --- NAVBAR FIJO --- */
+        /* --- NAVBAR FIJO GLOBAL --- */
         .navbar {
-            background-color: var(--bg-navbar);
-            color: var(--texto-blanco);
-            padding: 15px 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background-color: var(--bg-navbar); color: var(--texto-blanco);
+            padding: 15px 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
         }
-        .navbar-brand {
-            display: flex;
-            flex-direction: column;
-        }
-        .navbar-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-        .navbar-subtitle {
-            font-size: 0.75rem;
-            color: #bdc3c7;
-            margin: 3px 0 0 0;
-            font-weight: normal;
-        }
+        .navbar-brand { display: flex; flex-direction: column; }
+        .navbar-title { font-size: 1.2rem; font-weight: bold; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; }
+        .navbar-subtitle { font-size: 0.75rem; color: #bdc3c7; margin: 3px 0 0 0; font-weight: normal; }
 
-        /* --- CONTENEDOR DE PANTALLAS --- */
+        /* --- CONTENEDOR CENTRAL DE INTERFACES --- */
         .main-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            position: relative;
+            flex: 1; display: flex; align-items: center; justify-content: center; padding: 15px; position: relative;
         }
 
         .view-screen {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24 rgba(0,0,0,0.06);
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            opacity: 1;
-            transform: scale(1);
+            background: #ffffff; padding: 30px; border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06); width: 100%; max-width: 400px;
+            box-sizing: border-box; transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 1; transform: scale(1); display: block;
         }
 
-        /* Espaciado extendido para el plano de mesas */
-        #screen-mesas {
-            max-width: 600px;
-            align-self: flex-start;
-            margin-top: 10px;
-        }
+        #screen-mesas { max-width: 600px; align-self: flex-start; margin-top: 10px; }
 
-        .view-screen.fade-out {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-        }
+        /* Estados de animación controlados por JavaScript */
+        .view-screen.fade-out { opacity: 0; transform: scale(0.95); pointer-events: none; }
+        .hidden { display: none !important; }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* --- PANTALLA 1: LOGIN --- */
-        .login-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+        /* --- INTERFAZ: PANTALLA 1 (LOGIN) --- */
+        .login-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; text-align: center; }
         .input-password {
-            width: 100%;
-            padding: 12px;
-            font-size: 1.5rem;
-            letter-spacing: 12px;
-            text-align: center;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-            box-sizing: border-box;
-            margin-bottom: 15px;
+            width: 100%; padding: 12px; font-size: 1.5rem; letter-spacing: 12px; text-align: center;
+            border: 2px solid #cbd5e1; border-radius: 8px; outline: none; box-sizing: border-box; margin-bottom: 15px;
         }
 
-        /* Modales personalizados para alertas de error */
+        /* Modales estables para manejo de alertas y bloqueos */
         .modal-alert {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 2000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 2000;
         }
         .modal-alert-box {
-            background: white; padding: 25px; border-radius: 8px;
-            max-width: 320px; width: 85%; text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            background: white; padding: 25px; border-radius: 8px; max-width: 320px; width: 85%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
         .modal-alert-title { color: #e74c3c; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
         .modal-alert-text { color: #555; font-size: 0.95rem; margin-bottom: 15px; line-height: 1.4; }
-        .btn-alert-close {
-            background: var(--btn-negro); color: white; border: none;
-            padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;
-        }
 
-        /* --- PANTALLA 2: APERTURA CAJA --- */
-        .caja-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 25px;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 6px;
-        }
-        .form-input {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 1rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            outline: none;
-            box-sizing: border-box;
-        }
-        
-        .animated-field {
-            animation: slideDown 0.3s ease-out forwards;
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* --- INTERFAZ: PANTALLA 2 (APERTURA CAJA) --- */
+        .caja-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 25px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #4a5568; margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 10px 12px; font-size: 1rem; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; box-sizing: border-box; }
+        .animated-field { animation: slideDown 0.3s ease-out forwards; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .btn-submit {
-            width: 100%;
-            background-color: var(--btn-negro);
-            color: var(--texto-blanco);
-            border: none;
-            padding: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-transform: uppercase;
-            margin-top: 10px;
+            width: 100%; background-color: var(--btn-negro); color: var(--texto-blanco);
+            border: none; padding: 12px; font-size: 1rem; font-weight: bold; letter-spacing: 1px; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-top: 10px;
         }
 
-        /* --- PANTALLA 3: PLANO DE MESAS --- */
-        .mesas-panel-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .user-badge {
-            font-size: 0.8rem;
-            background: #e2e8f0;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: normal;
-        }
-
-        .accordion-zone {
-            margin-bottom: 12px;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-        }
-        .accordion-header {
-            padding: 14px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            cursor: pointer;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-        }
+        /* --- INTERFAZ: PANTALLA 3 (PLANO DE MESAS) --- */
+        .mesas-panel-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .user-badge { font-size: 0.8rem; background: #e2e8f0; padding: 4px 10px; border-radius: 20px; font-weight: normal; }
+        .accordion-zone { margin-bottom: 12px; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+        .accordion-header { padding: 14px; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer; font-size: 0.9rem; letter-spacing: 0.5px; }
         .bar-principal { background-color: var(--bar-principal); color: #721c24; }
         .bar-adentro { background-color: var(--bar-adentro); color: #856404; }
+        .arrow-icon { transition: transform 0.2s; }
+        .accordion-zone.open .arrow-icon { transform: rotate(90deg); }
 
-        .arrow-icon {
-            transition: transform 0.2s;
-        }
-        .accordion-zone.open .arrow-icon {
-            transform: rotate(90deg);
-        }
-
-        .grid-mesas {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-            gap: 12px;
-            padding: 15px;
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-top: none;
-        }
-
+        .grid-mesas { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; padding: 15px; background-color: #ffffff; border: 1px solid #e2e8f0; border-top: none; }
+        
         .mesa-card {
-            background-color: var(--mesa-libre);
-            color: var(--texto-blanco);
-            border-radius: 8px;
-            padding: 16px 8px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-            transition: transform 0.1s;
-            -webkit-tap-highlight-color: transparent;
+            background-color: var(--mesa-libre); color: var(--texto-blanco); border-radius: 8px; padding: 16px 8px; text-align: center; cursor: pointer; font-size: 0.85rem; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.08); transition: transform 0.1s; -webkit-tap-highlight-color: transparent;
         }
-        .mesa-card:active {
-            transform: scale(0.96);
-        }
+        .mesa-card:active { transform: scale(0.96); }
         .mesa-card.ocupada-verde { background-color: var(--mesa-ocupada-v); }
         .mesa-card.ocupada-azul { background-color: var(--mesa-ocupada-a); }
-        
-        .mesa-card .meta-info {
-            font-size: 0.7rem;
-            margin-top: 5px;
-            font-weight: normal;
-            opacity: 0.95;
-            background: rgba(0, 0, 0, 0.12);
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
+        .mesa-card .meta-info { font-size: 0.7rem; margin-top: 5px; font-weight: normal; opacity: 0.95; background: rgba(0, 0, 0, 0.12); padding: 2px 4px; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -293,9 +125,8 @@
         <!-- ================= PANTALLA 1: LOGIN ================= -->
         <section id="screen-login" class="view-screen">
             <div class="login-title">Ingrese su clave de seguridad</div>
-            <!-- Eliminamos la etiqueta <form> para evitar cualquier intento de recarga en el navegador móvil -->
-            <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••">
-            <button type="button" class="btn-submit" onclick="validarClaveManual()">Ingresar</button>
+            <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="••••••" autofocus>
+            <button type="button" class="btn-submit" onclick="validarClaveFailsafe()">Ingresar</button>
         </section>
 
         <!-- ================= PANTALLA 2: APERTURA DE CAJA ================= -->
@@ -307,4 +138,41 @@
                 <input type="text" id="input-dni" class="form-input" maxlength="8" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese 8 dígitos" autocomplete="off">
             </div>
 
-            <!-- Campo dinámico corregido con su respectiva etiqueta de apertura -->
+            <!-- Campo dinámico para nombres y apellidos -->
+            <div id="wrapper-nombre" class="form-group hidden animated-field">
+                <label for="input-nombre">Nombres y Apellidos</label>
+                <input type="text" id="input-nombre" class="form-input" placeholder="Ej: Juan Pérez Morales">
+            </div>
+
+            <button type="button" class="btn-submit" onclick="procesarAperturaCaja()">Aperturar Caja</button>
+        </section>
+
+        <!-- ================= PANTALLA 3: PLANO DE MESAS ================= -->
+        <section id="screen-mesas" class="view-screen hidden">
+            <div class="mesas-panel-title">
+                <span>📍 Plano de Salones</span>
+                <span id="badge-encargado" class="user-badge">Cajero: -</span>
+            </div>
+
+            <div class="accordion-zone open" id="zone-wrapper-1">
+                <div class="accordion-header bar-principal" onclick="toggleAccordion('1')">
+                    <span>🪑 ZONA PRINCIPAL</span>
+                    <span class="arrow-icon">▶</span>
+                </div>
+                <div class="grid-mesas" id="grid-zona-1">
+                    <div class="mesa-card" onclick="seleccionarMesa(1)">
+                        <div>MESA 01</div><div class="meta-info">Libre</div>
+                    </div>
+                    <div class="mesa-card ocupada-verde" onclick="seleccionarMesa(2)">
+                        <div>MESA 02</div><div class="meta-info">S/ 72.00</div><div class="meta-info">🕒 45 min</div>
+                    </div>
+                    <div class="mesa-card" onclick="seleccionarMesa(3)">
+                        <div>MESA 03</div><div class="meta-info">Libre</div>
+                    </div>
+                    <div class="mesa-card ocupada-azul" onclick="seleccionarMesa(4)">
+                        <div>MESA 04</div><div class="meta-info">S/ 97.00</div><div class="meta-info">🕒 12 min</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-zone" id="zone-wrapper-2">
