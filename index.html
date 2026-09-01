@@ -107,15 +107,10 @@
             outline: none;
             box-sizing: border-box;
             transition: border-color 0.2s;
+            margin-bottom: 15px;
         }
         .input-password:focus {
             border-color: #34495e;
-        }
-        .login-hint {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            margin-top: 8px;
-            text-align: center;
         }
 
         /* Mensajes de Error (Modales personalizados de alerta) */
@@ -216,9 +211,8 @@
         <!-- ================= PANTALLA 1: LOGIN ================= -->
         <section id="screen-login" class="view-screen">
             <div class="login-title">Ingrese su clave de seguridad</div>
-            <!-- Cambiado a type="password" con inputmode numérico para ocultar los dígitos y forzar teclado numérico -->
             <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••">
-            <div class="login-hint">El sistema ingresará automáticamente al completar los 6 dígitos</div>
+            <button class="btn-submit" onclick="validarClaveManual()">Ingresar</button>
         </section>
 
         <!-- ================= PANTALLA 2: APERTURA DE CAJA ================= -->
@@ -259,19 +253,16 @@
 
         let bdUsuariosSimulada = JSON.parse(localStorage.getItem('bd_dni_usuarios')) || {};
 
-        // Validar automáticamente al llegar a los 6 dígitos mediante el evento de liberación de tecla
-        document.getElementById("input-pin").addEventListener("keyup", function(e) {
-            // Reemplazar cualquier caracter no numérico
-            this.value = this.value.replace(/\D/g, '');
-            
-            if (this.value.length === 6) {
-                // Pequeño retraso controlado para permitir que el sistema termine de capturar el texto
-                setTimeout(validarClaveAutomatica, 100);
+        // Soporte para computadoras: Presionar ENTER en el teclado físico también envía la clave
+        document.getElementById("input-pin").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                validarClaveManual();
             }
         });
 
-        // Detectar cuando el usuario escribe en el campo DNI
-        document.getElementById("input-dni").addEventListener("keyup", function(e) {
+        // Limpiar caracteres no numéricos del campo DNI mientras escriben
+        document.getElementById("input-dni").addEventListener("input", function(e) {
             this.value = this.value.replace(/\D/g, '');
             
             if (this.value.length === 8) {
@@ -284,3 +275,16 @@
         // --- FUNCIONES DE ALERTA PERSONALIZADA ---
         function mostrarAlerta(titulo, mensaje) {
             document.getElementById("alert-title").innerText = titulo;
+            document.getElementById("alert-text").innerText = mensaje;
+            document.getElementById("custom-alert").classList.remove("hidden");
+        }
+
+        function cerrarAlerta() {
+            document.getElementById("custom-alert").classList.add("hidden");
+            if (!sistemaBloqueado) {
+                document.getElementById("input-pin").focus();
+            }
+        }
+
+        // --- LÓGICA DE VALIDACIÓN CON BOTÓN (COMPUTADORA Y MÓVIL) ---
+        function validarClaveManual() {
