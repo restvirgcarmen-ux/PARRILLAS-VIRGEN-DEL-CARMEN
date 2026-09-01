@@ -100,7 +100,7 @@
             width: 100%;
             padding: 12px;
             font-size: 1.5rem;
-            letter-spacing: 8px;
+            letter-spacing: 12px;
             text-align: center;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
@@ -216,8 +216,8 @@
         <!-- ================= PANTALLA 1: LOGIN ================= -->
         <section id="screen-login" class="view-screen">
             <div class="login-title">Ingrese su clave de seguridad</div>
-            <!-- Cambiado a type="tel" para que en celulares abra el teclado numérico directamente -->
-            <input type="tel" id="input-pin" class="input-password" maxlength="6" autofocus placeholder="••••••">
+            <!-- Cambiado a type="password" con inputmode numérico para ocultar los dígitos y forzar teclado numérico -->
+            <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••">
             <div class="login-hint">El sistema ingresará automáticamente al completar los 6 dígitos</div>
         </section>
 
@@ -227,7 +227,7 @@
             
             <div class="form-group">
                 <label for="input-dni">Número de DNI</label>
-                <input type="tel" id="input-dni" class="form-input" maxlength="8" placeholder="Ingrese 8 dígitos" autocomplete="off">
+                <input type="text" id="input-dni" class="form-input" maxlength="8" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese 8 dígitos" autocomplete="off">
             </div>
 
             <!-- Campo dinámico para nombres y apellidos (oculto por defecto) -->
@@ -259,19 +259,19 @@
 
         let bdUsuariosSimulada = JSON.parse(localStorage.getItem('bd_dni_usuarios')) || {};
 
-        // Validar automáticamente al llegar a los 6 dígitos (Ideal para celulares)
-        document.getElementById("input-pin").addEventListener("input", function(e) {
-            // Filtrar y dejar solo números por si acaso
+        // Validar automáticamente al llegar a los 6 dígitos mediante el evento de liberación de tecla
+        document.getElementById("input-pin").addEventListener("keyup", function(e) {
+            // Reemplazar cualquier caracter no numérico
             this.value = this.value.replace(/\D/g, '');
             
             if (this.value.length === 6) {
-                // Pequeño retraso para que el usuario llegue a ver el sexto dígito escrito
-                setTimeout(validarClaveAutomatica, 200);
+                // Pequeño retraso controlado para permitir que el sistema termine de capturar el texto
+                setTimeout(validarClaveAutomatica, 100);
             }
         });
 
         // Detectar cuando el usuario escribe en el campo DNI
-        document.getElementById("input-dni").addEventListener("input", function(e) {
+        document.getElementById("input-dni").addEventListener("keyup", function(e) {
             this.value = this.value.replace(/\D/g, '');
             
             if (this.value.length === 8) {
@@ -284,8 +284,3 @@
         // --- FUNCIONES DE ALERTA PERSONALIZADA ---
         function mostrarAlerta(titulo, mensaje) {
             document.getElementById("alert-title").innerText = titulo;
-            document.getElementById("alert-text").innerText = mensaje;
-            document.getElementById("custom-alert").classList.remove("hidden");
-        }
-
-
