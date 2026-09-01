@@ -3,134 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byte - Picantería Virgen del Carmen</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Parrillas Virgen del Carmen - Login</title>
+    <style>
+        /* --- CONFIGURACIÓN GLOBAL --- */
+        :root {
+            --bg-navbar: #000000;          /* Fondo negro para el navbar */
+            --bg-sistema: #ebf5fb;         /* Color verde/celeste claro de fondo para todo el sistema */
+            --texto-blanco: #ffffff;
+            --texto-oscuro: #2c3e50;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-sistema);
+            color: var(--texto-oscuro);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* --- NAVBAR SUPERIOR --- */
+        .navbar {
+            background-color: var(--bg-navbar);
+            color: var(--texto-blanco);
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .navbar-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .navbar-subtitle {
+            font-size: 0.75rem;
+            color: #bdc3c7;
+            margin: 3px 0 0 0;
+            font-weight: normal;
+        }
+
+        /* --- CONTENEDOR CENTRAL DE LOGIN --- */
+        .login-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .login-instruction {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        /* Indicador visual de los 6 dígitos */
+        .pin-dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .pin-dot {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #bdc3c7;
+            border-radius: 50%;
+            transition: background-color 0.1s, border-color 0.1s;
+        }
+        .pin-dot.active {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        /* --- TECLADO NUMÉRICO TÁCTIL --- */
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .key-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            padding: 18px 0;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #2d3748;
+            transition: background-color 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .key-btn:active {
+            background-color: #e2e8f0;
+        }
+        .key-btn.btn-clear {
+            background-color: #fadbd8;
+            color: #e74c3c;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .key-btn.btn-clear:active {
+            background-color: #f5b7b1;
+        }
+
+        /* Mensaje de error */
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            height: 18px;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
-    <!-- Encabezado del Sistema -->
-    <header class="system-header">
-        <div class="header-brand">
-            <span class="brand-icon">🍽️</span>
-            <div>
-                <h1>BYTE</h1>
-                <h2>PICANTERÍA VIRGEN DEL CARMEN</h2>
-            </div>
+
+    <!-- NAVBAR NEGRO -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1 class="navbar-title">PARRILLAS VIRGEN DEL CARMEN</h1>
+            <h2 class="navbar-subtitle">Calle Tumbes 331 La Unión Piura</h2>
         </div>
-        <div class="header-menu">☰</div>
-    </header>
+    </nav>
 
-    <main class="container">
-        <!-- VISTA 1: PLANO DE MESAS Y ZONAS -->
-        <section id="vista-mesas" class="view-section">
-            <!-- Alerta de Impresión -->
-            <div class="alert-box">
-                ⚠️ <strong>¡Importante!</strong> La configuración de impresión está incompleta
+    <!-- CUERPO CENTRAL -->
+    <main class="login-container">
+        <div class="login-box">
+            <div class="login-instruction">Ingrese su clave de seguridad</div>
+            
+            <!-- Puntos que se llenan al escribir -->
+            <div class="pin-dots-container">
+                <div class="pin-dot" id="dot-1"></div>
+                <div class="pin-dot" id="dot-2"></div>
+                <div class="pin-dot" id="dot-3"></div>
+                <div class="pin-dot" id="dot-4"></div>
+                <div class="pin-dot" id="dot-5"></div>
+                <div class="pin-dot" id="dot-6"></div>
             </div>
 
-            <!-- Acordeón Zona Principal -->
-            <div class="accordion-zone active" data-zone="principal">
-                <div class="accordion-header zone-principal-bar" onclick="toggleZone('principal')">
-                    <span>🪑 PRINCIPAL - <span id="count-principal">3</span> Activas</span>
-                    <span class="arrow">▼</span>
-                </div>
-                <div class="accordion-content grid-mesas" id="zone-content-principal">
-                    <!-- Las mesas se generarán dinámicamente con JavaScript -->
-                </div>
+            <!-- Teclado Numérico Móvil -->
+            <div class="keypad-grid">
+                <button class="key-btn" onclick="pressKey('1')">1</button>
+                <button class="key-btn" onclick="pressKey('2')">2</button>
+                <button class="key-btn" onclick="pressKey('3')">3</button>
+                
+                <button class="key-btn" onclick="pressKey('4')">4</button>
+                <button class="key-btn" onclick="pressKey('5')">5</button>
+                <button class="key-btn" onclick="pressKey('6')">6</button>
+                
+                <button class="key-btn" onclick="pressKey('7')">7</button>
+                <button class="key-btn" onclick="pressKey('8')">8</button>
+                <button class="key-btn" onclick="pressKey('9')">9</button>
+                
+                <button class="key-btn btn-clear" onclick="clearAll()">Borrar</button>
+                <button class="key-btn" onclick="pressKey('0')">0</button>
+                <button class="key-btn btn-clear" onclick="deleteLast()">⌫</button>
             </div>
 
-            <!-- Acordeón Zona Adentro -->
-            <div class="accordion-zone" data-zone="adentro">
-                <div class="accordion-header zone-adentro-bar" onclick="toggleZone('adentro')">
-                    <span>🏠 ADENTRO - 0 Activas</span>
-                    <span class="arrow">▶</span>
-                </div>
-                <div class="accordion-content grid-mesas hidden" id="zone-content-adentro"></div>
-            </div>
-        </section>
-
-        <!-- VISTA 2: PUNTO DE VENTA / COMANDAS -->
-        <section id="vista-pos" class="view-section hidden">
-            <div class="pos-layout">
-                <!-- Panel de Menú / Productos (Izquierda) -->
-                <div class="pos-menu-panel">
-                    <div class="search-container">
-                        <input type="text" placeholder="Buscar..." class="search-input">
-                    </div>
-                    
-                    <!-- Categorías / Productos Grid -->
-                    <div class="menu-grid" id="grid-categorias-productos">
-                        <!-- Categorías Base -->
-                        <button class="btn-category cat-naranja" onclick="cargarProductos('alitas')">ALITAS</button>
-                        <button class="btn-category cat-azul" onclick="cargarProductos('cebiches')">CEBICHES</button>
-                        <button class="btn-category cat-verde" onclick="cargarProductos('rondas')">RONDAS</button>
-                        <button class="btn-category cat-rojo" onclick="cargarProductos('carnes')">CARNES</button>
-                    </div>
-                </div>
-
-                <!-- Panel de Detalle del Pedido (Derecha) -->
-                <div class="pos-order-panel">
-                    <div class="order-header-info">
-                        <div><strong>MESA:</strong> <span id="pos-mesa-num">01</span></div>
-                        <div><strong>MOZO:</strong> Gerardo</div>
-                    </div>
-
-                    <div class="order-table-container">
-                        <table class="order-table">
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Cnt</th>
-                                    <th>St</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="order-items-body">
-                                <tr>
-                                    <td colspan="4" class="empty-cart">Sin Ítems Aún</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Panel de Acciones y Totales -->
-                    <div class="order-summary">
-                        <div class="summary-row">Items: <span id="summary-count">0</span></div>
-                        <div class="summary-row total-row">Total: S/ <span id="summary-total">0.00</span></div>
-                    </div>
-
-                    <div class="pos-actions-grid">
-                        <button class="btn-action action-green" onclick="enviarPedido()">📝 Enviar Pedido</button>
-                        <button class="btn-action action-cyan">🖨️ Imprimir Cuenta</button>
-                        <button class="btn-action action-blue" onclick="finalizarVenta()">💵 Finalizar Venta</button>
-                        <button class="btn-action action-red" onclick="volverAMesas()">⬅️ Volver a Mesas</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <!-- Contenedor para alertas de clave incorrecta -->
+            <div class="error-message" id="error-txt"></div>
+        </div>
     </main>
 
-    <!-- VENTANA MODAL: APERTURAR MESA -->
-    <div id="modal-apertura" class="modal-backdrop hidden">
-        <div class="modal-box">
-            <h3>Aperturar Mesa <span id="modal-mesa-id">00</span></h3>
-            <div class="form-group">
-                <label>Cliente</label>
-                <input type="text" id="input-cliente" placeholder="Ingresa un nombre">
-            </div>
-            <div class="form-group">
-                <label>Personas</label>
-                <div class="counter-control">
-                    <button onclick="updatePersonas(-1)">-</button>
-                    <input type="number" id="input-personas" value="1" readonly>
-                    <button onclick="updatePersonas(1)">+</button>
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
-                <button class="btn-confirm" onclick="confirmarApertura()">Aperturar Mesa</button>
-            </div>
-        </div>
-    </div>
+    <!-- CONTROL DE INTERACTIVIDAD -->
+    <script>
+        // CLAVE CONFIGURADA EN EL CÓDIGO (Puedes cambiarla aquí por la que desees)
+        const CLAVE_CORRECTA = "123456"; 
+        
+        let pinIngresado = "";
+
+        function pressKey(num) {
+            if (pinIngresado.length < 6) {
+                pinIngresado += num;
+                actualizarPuntos();
+                document.getElementById("error-txt").innerText = ""; // Limpiar error mientras escribe
+                
+                // Si ya completó los 6 dígitos, validar de inmediato
+                if (pinIngresado.length === 6) {
+                    setTimeout(validarClave, 150);
+                }
+            }
+        }
+
+        function actualizarPuntos() {
+            for (let i = 1; i <= 6; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i <= pinIngresado.length) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            }
+        }
+
+        function deleteLast() {
+            if (pinIngresado.length > 0) {
+                pinIngresado = pinIngresado.slice(0, -1);
+                actualizarPuntos();
+                document.getElementById("error-txt").innerText = "";
+            }
+        }
+
+        function clearAll() {
+            pinIngresado = "";
+            actualizarPuntos();
+            document.getElementById("error-txt").innerText = "";
+        }
+
+        function validarClave() {
+            if (pinIngresado === CLAVE_CORRECTA) {
+                alert("¡Clave Correcta! Bienvenido al sistema.");
+                // Aquí en el siguiente paso cargaremos la pantalla de las mesas
+            } else {
+                document.getElementById("error-txt").innerText = "Clave incorrecta. Inténtelo de nuevo.";
+                // Efecto visual de reinicio por error
+                pinIngresado = "";
+                setTimeout(actualizarPuntos, 300);
+            }
+        }
+    </script>
 </body>
 </html>
-
