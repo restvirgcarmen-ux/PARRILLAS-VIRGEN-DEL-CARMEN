@@ -211,8 +211,11 @@
         <!-- ================= PANTALLA 1: LOGIN ================= -->
         <section id="screen-login" class="view-screen">
             <div class="login-title">Ingrese su clave de seguridad</div>
-            <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••">
-            <button class="btn-submit" onclick="validarClaveManual()">Ingresar</button>
+            <!-- Envolvemos en un formulario HTML nativo para garantizar compatibilidad con el botón de envío -->
+            <form onsubmit="validarClaveManual(event)">
+                <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••" required>
+                <button type="submit" class="btn-submit">Ingresar</button>
+            </form>
         </section>
 
         <!-- ================= PANTALLA 2: APERTURA DE CAJA ================= -->
@@ -253,18 +256,8 @@
 
         let bdUsuariosSimulada = JSON.parse(localStorage.getItem('bd_dni_usuarios')) || {};
 
-        // Soporte para computadoras: Presionar ENTER en el teclado físico también envía la clave
-        document.getElementById("input-pin").addEventListener("keydown", function(e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                validarClaveManual();
-            }
-        });
-
-        // Limpiar caracteres no numéricos del campo DNI mientras escriben
+        // Controlar el ingreso de DNI de forma simple
         document.getElementById("input-dni").addEventListener("input", function(e) {
-            this.value = this.value.replace(/\D/g, '');
-            
             if (this.value.length === 8) {
                 verificarExistenciaDNI(this.value);
             } else {
@@ -286,5 +279,10 @@
             }
         }
 
-        // --- LÓGICA DE VALIDACIÓN CON BOTÓN (COMPUTADORA Y MÓVIL) ---
-        function validarClaveManual() {
+        // --- LÓGICA DE VALIDACIÓN CONFIABLE POR FORMULARIO ---
+        function validarClaveManual(event) {
+            // Evita que la página web se recargue por el formulario
+            if (event) event.preventDefault();
+            
+            if (sistemaBloqueado) return;
+
