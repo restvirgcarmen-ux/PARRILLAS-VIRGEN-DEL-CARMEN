@@ -12,6 +12,13 @@
             --texto-blanco: #ffffff;
             --texto-oscuro: #2c3e50;
             --btn-negro: #000000;
+            
+            /* Colores del plano de salones */
+            --bar-principal: #ff9f9f;
+            --bar-adentro: #f1f58f;
+            --mesa-libre: #7f8c8d;
+            --mesa-ocupada-v: #8ba846;
+            --mesa-ocupada-a: #008bba;
         }
 
         body {
@@ -24,6 +31,7 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            user-select: none;
         }
 
         /* --- NAVBAR FIJO --- */
@@ -60,7 +68,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
             position: relative;
         }
 
@@ -68,13 +76,20 @@
             background: #ffffff;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            box-shadow: 0 8px 24 rgba(0,0,0,0.06);
             width: 100%;
             max-width: 400px;
             box-sizing: border-box;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease;
             opacity: 1;
             transform: scale(1);
+        }
+
+        /* Espaciado extendido para el plano de mesas */
+        #screen-mesas {
+            max-width: 600px;
+            align-self: flex-start;
+            margin-top: 10px;
         }
 
         .view-screen.fade-out {
@@ -104,14 +119,10 @@
             border-radius: 8px;
             outline: none;
             box-sizing: border-box;
-            transition: border-color 0.2s;
             margin-bottom: 15px;
         }
-        .input-password:focus {
-            border-color: #34495e;
-        }
 
-        /* Modales de alerta personalizados */
+        /* Modales personalizados para alertas de error */
         .modal-alert {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -160,9 +171,6 @@
             outline: none;
             box-sizing: border-box;
         }
-        .form-input:focus {
-            border-color: #000;
-        }
         
         .animated-field {
             animation: slideDown 0.3s ease-out forwards;
@@ -185,10 +193,87 @@
             cursor: pointer;
             text-transform: uppercase;
             margin-top: 10px;
-            transition: background-color 0.2s;
         }
-        .btn-submit:hover {
-            background-color: #222;
+
+        /* --- PANTALLA 3: PLANO DE MESAS --- */
+        .mesas-panel-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-badge {
+            font-size: 0.8rem;
+            background: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: normal;
+        }
+
+        .accordion-zone {
+            margin-bottom: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+        .accordion-header {
+            padding: 14px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        .bar-principal { background-color: var(--bar-principal); color: #721c24; }
+        .bar-adentro { background-color: var(--bar-adentro); color: #856404; }
+
+        .arrow-icon {
+            transition: transform 0.2s;
+        }
+        .accordion-zone.open .arrow-icon {
+            transform: rotate(90deg);
+        }
+
+        .grid-mesas {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+            gap: 12px;
+            padding: 15px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+        }
+
+        .mesa-card {
+            background-color: var(--mesa-libre);
+            color: var(--texto-blanco);
+            border-radius: 8px;
+            padding: 16px 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            transition: transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .mesa-card:active {
+            transform: scale(0.96);
+        }
+        .mesa-card.ocupada-verde { background-color: var(--mesa-ocupada-v); }
+        .mesa-card.ocupada-azul { background-color: var(--mesa-ocupada-a); }
+        
+        .mesa-card .meta-info {
+            font-size: 0.7rem;
+            margin-top: 5px;
+            font-weight: normal;
+            opacity: 0.95;
+            background: rgba(0, 0, 0, 0.12);
+            padding: 2px 4px;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -208,11 +293,9 @@
         <!-- ================= PANTALLA 1: LOGIN ================= -->
         <section id="screen-login" class="view-screen">
             <div class="login-title">Ingrese su clave de seguridad</div>
-            <!-- El formulario ahora captura el evento submit de forma nativa -->
-            <form id="login-form" onsubmit="validarClaveManual(event)">
-                <input type="password" name="seguridad_pin" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••" required>
-                <button type="submit" class="btn-submit">Ingresar</button>
-            </form>
+            <!-- Eliminamos la etiqueta <form> para evitar cualquier intento de recarga en el navegador móvil -->
+            <input type="password" id="input-pin" class="input-password" maxlength="6" inputmode="numeric" pattern="[0-9]*" autofocus placeholder="••••••">
+            <button type="button" class="btn-submit" onclick="validarClaveManual()">Ingresar</button>
         </section>
 
         <!-- ================= PANTALLA 2: APERTURA DE CAJA ================= -->
@@ -224,68 +307,4 @@
                 <input type="text" id="input-dni" class="form-input" maxlength="8" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese 8 dígitos" autocomplete="off">
             </div>
 
-            <div id="wrapper-nombre" class="form-group hidden animated-field">
-                <label for="input-nombre">Nombres y Apellidos</label>
-                <input type="text" id="input-nombre" class="form-input" placeholder="Ej: Juan Pérez Morales">
-            </div>
-
-            <button class="btn-submit" onclick="procesarAperturaCaja()">Aperturar Caja</button>
-        </section>
-
-    </main>
-
-    <!-- ALERTA EMERGENTE PERSONALIZADA -->
-    <div id="custom-alert" class="modal-alert hidden">
-        <div class="modal-alert-box">
-            <div id="alert-title" class="modal-alert-title">Error</div>
-            <div id="alert-text" class="modal-alert-text">Mensaje</div>
-            <button class="btn-alert-close" onclick="cerrarAlerta()">Aceptar</button>
-        </div>
-    </div>
-
-    <!-- CONTROLADORES -->
-    <script>
-        const CLAVE_SISTEMA = "123456"; 
-        let intentosFallidos = 0;
-        let sistemaBloqueado = false;
-
-        let bdUsuariosSimulada = JSON.parse(localStorage.getItem('bd_dni_usuarios')) || {};
-
-        // Escuchar la entrada de DNI de forma limpia
-        document.getElementById("input-dni").addEventListener("input", function() {
-            if (this.value.length === 8) {
-                verificarExistenciaDNI(this.value);
-            } else {
-                document.getElementById("wrapper-nombre").classList.add("hidden");
-            }
-        });
-
-        function mostrarAlerta(titulo, mensaje) {
-            document.getElementById("alert-title").innerText = titulo;
-            document.getElementById("alert-text").innerText = mensaje;
-            document.getElementById("custom-alert").classList.remove("hidden");
-        }
-
-        function cerrarAlerta() {
-            document.getElementById("custom-alert").classList.add("hidden");
-            if (!sistemaBloqueado) {
-                document.getElementById("input-pin").focus();
-            }
-        }
-
-        // --- VALIDACIÓN LOGÍSTICA COMPLETA ---
-        function validarClaveManual(event) {
-            if (event) event.preventDefault();
-            if (sistemaBloqueado) return;
-
-            // Extraemos el valor del formulario de manera nativa para evitar problemas de lectura del DOM
-            const form = document.getElementById("login-form");
-            const formData = new FormData(form);
-            const valorIngresado = formData.get("seguridad_pin");
-
-            if (!valorIngresado) return;
-
-            if (valorIngresado === CLAVE_SISTEMA) {
-                intentosFallidos = 0;
-                ejecutarTransicionA(document.getElementById("screen-login"), document.getElementById("screen-caja"));
-
+            <!-- Campo dinámico corregido con su respectiva etiqueta de apertura -->
