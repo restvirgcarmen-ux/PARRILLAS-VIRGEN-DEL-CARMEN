@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parrillas Virgen del Carmen - Login</title>
+    <title>Parrillas Virgen del Carmen - Sistema de Gestión</title>
     <style>
-        /* --- CONFIGURACIÓN GLOBAL --- */
+        /* --- ESTILOS GLOBALES --- */
         :root {
-            --bg-navbar: #000000;          /* Fondo negro para el navbar */
-            --bg-sistema: #ebf5fb;         /* Color verde/celeste claro de fondo para todo el sistema */
+            --bg-navbar: #000000;
+            --bg-sistema: #ebf5fb; /* Verde/celeste claro idéntico al anterior */
             --texto-blanco: #ffffff;
             --texto-oscuro: #2c3e50;
+            --btn-negro: #000000;
         }
 
         body {
@@ -22,23 +23,25 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            user-select: none;
+            overflow-x: hidden;
         }
 
-        /* --- NAVBAR SUPERIOR --- */
+        /* --- NAVBAR FIJO PARA TODO EL SISTEMA --- */
         .navbar {
             background-color: var(--bg-navbar);
             color: var(--texto-blanco);
             padding: 15px 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .navbar-brand {
             display: flex;
             flex-direction: column;
-            justify-content: center;
         }
         .navbar-title {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: bold;
             letter-spacing: 0.5px;
             margin: 0;
@@ -51,99 +54,155 @@
             font-weight: normal;
         }
 
-        /* --- CONTENEDOR CENTRAL DE LOGIN --- */
-        .login-container {
+        /* --- CONTENEDOR DE PANTALLAS --- */
+        .main-container {
             flex: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
         }
 
-        .login-box {
+        /* Clase para las vistas/pantallas */
+        .view-screen {
             background: #ffffff;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
             width: 100%;
-            max-width: 320px;
+            max-width: 400px;
+            box-sizing: border-box;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Efecto de transición (Desaparecer) */
+        .view-screen.fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- ESTILOS: PANTALLA 1 (LOGIN) --- */
+        .login-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
             text-align: center;
+        }
+        .input-password {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.5rem;
+            letter-spacing: 8px;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .input-password:focus {
+            border-color: #34495e;
+        }
+        .login-hint {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* Mensajes de Error (Modales personalizados de alerta) */
+        .modal-alert {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 2000;
+        }
+        .modal-alert-box {
+            background: white; padding: 25px; border-radius: 8px;
+            max-width: 320px; width: 85%; text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .modal-alert-title { color: #e74c3c; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
+        .modal-alert-text { color: #555; font-size: 0.95rem; margin-bottom: 15px; line-height: 1.4; }
+        .btn-alert-close {
+            background: var(--btn-negro); color: white; border: none;
+            padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+
+        /* --- ESTILOS: PANTALLA 2 (APERTURA CAJA) --- */
+        .caja-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 6px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
             box-sizing: border-box;
         }
-
-        .login-instruction {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #34495e;
+        .form-input:focus {
+            border-color: #000;
+        }
+        
+        /* Animación para la aparición del campo nombre */
+        .animated-field {
+            animation: slideDown 0.3s ease-out forwards;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Indicador visual de los 6 dígitos */
-        .pin-dots-container {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-        .pin-dot {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #bdc3c7;
-            border-radius: 50%;
-            transition: background-color 0.1s, border-color 0.1s;
-        }
-        .pin-dot.active {
-            background-color: #27ae60;
-            border-color: #27ae60;
-        }
-
-        /* --- TECLADO NUMÉRICO TÁCTIL --- */
-        .keypad-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        .key-btn {
-            background-color: #f8f9fa;
-            border: 1px solid #e2e8f0;
-            padding: 18px 0;
-            font-size: 1.4rem;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            color: #2d3748;
-            transition: background-color 0.1s;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .key-btn:active {
-            background-color: #e2e8f0;
-        }
-        .key-btn.btn-clear {
-            background-color: #fadbd8;
-            color: #e74c3c;
+        .btn-submit {
+            width: 100%;
+            background-color: var(--btn-negro);
+            color: var(--texto-blanco);
+            border: none;
+            padding: 12px;
             font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+            transition: background-color 0.2s;
         }
-        .key-btn.btn-clear:active {
-            background-color: #f5b7b1;
-        }
-
-        /* Mensaje de error */
-        .error-message {
-            color: #e74c3c;
-            font-size: 0.85rem;
-            margin-top: 15px;
-            height: 18px;
-            font-weight: 500;
+        .btn-submit:hover {
+            background-color: #222;
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR NEGRO -->
+    <!-- NAVBAR PERMANENTE -->
     <nav class="navbar">
         <div class="navbar-brand">
             <h1 class="navbar-title">PARRILLAS VIRGEN DEL CARMEN</h1>
@@ -151,101 +210,81 @@
         </div>
     </nav>
 
-    <!-- CUERPO CENTRAL -->
-    <main class="login-container">
-        <div class="login-box">
-            <div class="login-instruction">Ingrese su clave de seguridad</div>
+    <!-- CONTENEDOR CENTRAL -->
+    <main class="main-container">
+
+        <!-- ================= PANTALLA 1: LOGIN ================= -->
+        <section id="screen-login" class="view-screen">
+            <div class="login-title">Ingrese su clave de seguridad</div>
+            <input type="password" id="input-pin" class="input-password" maxlength="6" autofocus placeholder="••••••">
+            <div class="login-hint">Presione ENTER para ingresar</div>
+        </section>
+
+        <!-- ================= PANTALLA 2: APERTURA DE CAJA ================= -->
+        <section id="screen-caja" class="view-screen hidden">
+            <div class="caja-title">Aperturar caja</div>
             
-            <!-- Puntos que se llenan al escribir -->
-            <div class="pin-dots-container">
-                <div class="pin-dot" id="dot-1"></div>
-                <div class="pin-dot" id="dot-2"></div>
-                <div class="pin-dot" id="dot-3"></div>
-                <div class="pin-dot" id="dot-4"></div>
-                <div class="pin-dot" id="dot-5"></div>
-                <div class="pin-dot" id="dot-6"></div>
+            <div class="form-group">
+                <label for="input-dni">Número de DNI</label>
+                <input type="text" id="input-dni" class="form-input" maxlength="8" placeholder="Ingrese 8 dígitos" autocomplete="off">
             </div>
 
-            <!-- Teclado Numérico Móvil -->
-            <div class="keypad-grid">
-                <button class="key-btn" onclick="pressKey('1')">1</button>
-                <button class="key-btn" onclick="pressKey('2')">2</button>
-                <button class="key-btn" onclick="pressKey('3')">3</button>
-                
-                <button class="key-btn" onclick="pressKey('4')">4</button>
-                <button class="key-btn" onclick="pressKey('5')">5</button>
-                <button class="key-btn" onclick="pressKey('6')">6</button>
-                
-                <button class="key-btn" onclick="pressKey('7')">7</button>
-                <button class="key-btn" onclick="pressKey('8')">8</button>
-                <button class="key-btn" onclick="pressKey('9')">9</button>
-                
-                <button class="key-btn btn-clear" onclick="clearAll()">Borrar</button>
-                <button class="key-btn" onclick="pressKey('0')">0</button>
-                <button class="key-btn btn-clear" onclick="deleteLast()">⌫</button>
+            <!-- Campo dinámico para nombres y apellidos (oculto por defecto) -->
+            <div id="wrapper-nombre" class="form-group hidden animated-field">
+                <label for="input-nombre">Nombres y Apellidos</label>
+                <input type="text" id="input-nombre" class="form-input" placeholder="Ej: Juan Pérez Morales">
             </div>
 
-            <!-- Contenedor para alertas de clave incorrecta -->
-            <div class="error-message" id="error-txt"></div>
-        </div>
+            <button class="btn-submit" onclick="procesarAperturaCaja()">Aperturar Caja</button>
+        </section>
+
     </main>
 
-    <!-- CONTROL DE INTERACTIVIDAD -->
+    <!-- VENTANA MODAL PERSONALIZADA PARA ERRORES -->
+    <div id="custom-alert" class="modal-alert hidden">
+        <div class="modal-alert-box">
+            <div id="alert-title" class="modal-alert-title">Error</div>
+            <div id="alert-text" class="modal-alert-text">Mensaje</div>
+            <button class="btn-alert-close" onclick="cerrarAlerta()">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- CONTROLADORES Y LÓGICA DE TRANSICIONES -->
     <script>
-        // CLAVE CONFIGURADA EN EL CÓDIGO (Puedes cambiarla aquí por la que desees)
-        const CLAVE_CORRECTA = "123456"; 
-        
-        let pinIngresado = "";
+        // --- CONFIGURACIÓN DE SEGURIDAD INTERNA ---
+        const CLAVE_SISTEMA = "123456"; // Clave requerida
+        let intentosFallidos = 0;
+        let sistemaBloqueado = false;
 
-        function pressKey(num) {
-            if (pinIngresado.length < 6) {
-                pinIngresado += num;
-                actualizarPuntos();
-                document.getElementById("error-txt").innerText = ""; // Limpiar error mientras escribe
-                
-                // Si ya completó los 6 dígitos, validar de inmediato
-                if (pinIngresado.length === 6) {
-                    setTimeout(validarClave, 150);
-                }
+        // Base de datos simulada en el navegador para pruebas de DNI
+        // Guarda la fecha de registro para controlar la condición de los 30 días
+        let bdUsuariosSimulada = JSON.parse(localStorage.getItem('bd_dni_usuarios')) || {};
+
+        // Capturar el evento ENTER en el input de la contraseña
+        document.getElementById("input-pin").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                validarClaveFisica();
             }
-        }
+        });
 
-        function actualizarPuntos() {
-            for (let i = 1; i <= 6; i++) {
-                const dot = document.getElementById(`dot-${i}`);
-                if (i <= pinIngresado.length) {
-                    dot.classList.add("active");
-                } else {
-                    dot.classList.remove("active");
-                }
-            }
-        }
-
-        function deleteLast() {
-            if (pinIngresado.length > 0) {
-                pinIngresado = pinIngresado.slice(0, -1);
-                actualizarPuntos();
-                document.getElementById("error-txt").innerText = "";
-            }
-        }
-
-        function clearAll() {
-            pinIngresado = "";
-            actualizarPuntos();
-            document.getElementById("error-txt").innerText = "";
-        }
-
-        function validarClave() {
-            if (pinIngresado === CLAVE_CORRECTA) {
-                alert("¡Clave Correcta! Bienvenido al sistema.");
-                // Aquí en el siguiente paso cargaremos la pantalla de las mesas
+        // Detectar cuando el usuario escribe en el campo DNI
+        document.getElementById("input-dni").addEventListener("input", function(e) {
+            // Solo permitir números
+            this.value = this.value.replace(/\D/g, '');
+            
+            // Cuando llega exactamente a 8 dígitos, verificar si existe en la base de datos
+            if (this.value.length === 8) {
+                verificarExistenciaDNI(this.value);
             } else {
-                document.getElementById("error-txt").innerText = "Clave incorrecta. Inténtelo de nuevo.";
-                // Efecto visual de reinicio por error
-                pinIngresado = "";
-                setTimeout(actualizarPuntos, 300);
+                document.getElementById("wrapper-nombre").classList.add("hidden");
             }
+        });
+
+        // --- FUNCIONES DE ALERTA PERSONALIZADA ---
+        function mostrarAlerta(titulo, mensaje) {
+            document.getElementById("alert-title").innerText = titulo;
+            document.getElementById("alert-text").innerText = mensaje;
+            document.getElementById("custom-alert").classList.remove("hidden");
         }
-    </script>
-</body>
-</html>
+
